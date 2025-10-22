@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class Player : Character
 {
-    [SerializeField] private float speed = 5;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private Transform model;
+    [SerializeField] private float attackCooldown = 1.0f;
+    [SerializeField] private float attackHitDelay = 0.25f;
 
     void Update()
     {
-		if (GameManager.Instance.IsState(GameState.Gameplay))
+        Vector3 direction = JoystickControl.direct;
+
+        if (direction != Vector3.zero)
         {
-			if (Input.GetMouseButton(0))
-			{
-				Vector3 nectPoint = JoystickControl.direct * speed * Time.deltaTime + TF.position;
-			}
-		}
+            Vector3 nextPoint = TF.position + direction * speed * Time.deltaTime;
+            TF.position = CheckGround(nextPoint);
+            model.forward = direction;
+
+            ChangeAnim("run");
+        }
+        else
+        {
+            ChangeAnim("idle");
+        }
     }
 }
