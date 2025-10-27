@@ -12,19 +12,19 @@ public class Character : GameUnit
 
 	public override void OnInit()
 	{
-
+        currentAnim = "";
 	}
-
+     
     public Vector3 CheckGround(Vector3 nextPoint)
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(nextPoint, Vector3.down, out hit, 2f, groundLayer))
-        {
-            return hit.point + Vector3.up * 1.1f;
-        }
+		if (Physics.Raycast(nextPoint + Vector3.up * 0.5f, Vector3.down, out hit, 2f, groundLayer))
+		{
+			nextPoint.y = hit.point.y + 0.05f;
+		}
 
-        return TF.position;
+		return nextPoint;
     }
 
     public override void OnDespawn()

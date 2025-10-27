@@ -8,10 +8,9 @@ using UnityEngine.AI;
 public class Level : MonoBehaviour
 {
     public NavMeshData navMeshData;
-    public Transform SpawnPoint;
-    public Transform startPoint;
     public int botAmount;
 
+    public Transform[] SpawnPoint;
     public void OnInit()
     {
 

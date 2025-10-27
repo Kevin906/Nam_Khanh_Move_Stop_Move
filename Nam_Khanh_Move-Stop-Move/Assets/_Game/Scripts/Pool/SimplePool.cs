@@ -326,12 +326,11 @@ public enum IngameType
 	PLAYER,
 	ENEMY,
 	None,
-	HpBar,
 }
 
 
 public enum PoolType
 {
-	Bot,
-	Brick,
+	Enemy,
+	Projectile
 }
