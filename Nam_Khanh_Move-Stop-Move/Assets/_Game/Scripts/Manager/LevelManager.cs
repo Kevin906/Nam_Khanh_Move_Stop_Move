@@ -1,29 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class LevelManager : MonoBehaviour
 {
+    [Header("Prefabs")]
     public Enemy enemyPrefab;
     public Player playerPrefab;
-	public Level[] levelPrefabs;
-	private Level currentLevel;
+    public Level[] levelPrefabs;
 
-    private int levelIndex;
-	public int CharacterAmount => currentLevel.botAmount + 1;
-	private List<Enemy> enemies = new List<Enemy>();
-	void Start()
-    {
-		UIManager.Instance.OpenUI<MainMenu>();
-		OnInit();
-    }
+    private Level currentLevel;
+    private List<Enemy> activeEnemies = new List<Enemy>();
 
-    // Update is called once per frame
-    void Update()
+    private int levelIndex = 0;
+    private int totalSpawnedEnemies = 0;
+
+    void Start()
     {
-        
+        UIManager.Instance.OpenUI<MainMenu>();
+        OnInit();
     }
 
     public void OnInit()
@@ -31,37 +26,74 @@ public class LevelManager : MonoBehaviour
         levelIndex = 0;
         currentLevel = Instantiate(levelPrefabs[levelIndex]);
 
-		NavMesh.RemoveAllNavMeshData();
-		NavMesh.AddNavMeshData(currentLevel.navMeshData);
+        NavMesh.RemoveAllNavMeshData();
+        NavMesh.AddNavMeshData(currentLevel.navMeshData);
 
-		SpawnPlayer();
-        SpawnEnemy();
-		for (int i = 0; i < currentLevel.botAmount; i++)
-		{
-			int randomIndex = Random.Range(0, currentLevel.SpawnPoint.Length);
-			Transform randomSpawn = currentLevel.SpawnPoint[randomIndex];
+        totalSpawnedEnemies = 0;
+        activeEnemies.Clear();
 
-			Enemy enemy = SimplePool.Spawn<Enemy>(PoolType.Enemy, randomSpawn.position, Quaternion.identity);
-			enemy.OnInit();
-			enemies.Add(enemy);
-		}
-	}
+        SpawnPlayer();
+        InitialEnemySpawn();
+    }
 
     private void SpawnPlayer()
     {
-        int randomIndex = Random.Range(0, currentLevel.SpawnPoint.Length);
-        Transform randomSpawn = currentLevel.SpawnPoint[randomIndex];
+        if (currentLevel.spawnPoints == null || currentLevel.spawnPoints.Length == 0)
+        {
+            Debug.LogWarning("No spawn points found in current level.");
+            return;
+        }
 
-        Player newPlayer = Instantiate(playerPrefab, randomSpawn.position, Quaternion.identity);
-        newPlayer.OnInit();
+        int randomIndex = Random.Range(0, currentLevel.spawnPoints.Length);
+        Transform randomSpawn = currentLevel.spawnPoints[randomIndex];
+
+        Player player = Instantiate(playerPrefab, randomSpawn.position, Quaternion.identity);
+        player.OnInit();
+    }
+
+    private void InitialEnemySpawn()
+    {
+        int spawnCount = currentLevel.GetInitialSpawnCount();
+
+        for (int i = 0; i < spawnCount; i++)
+        {
+            SpawnEnemy();
+        }
+    }
+
+    private void Update()
+    {
+        // Kiểm tra và spawn thêm enemy nếu cần
+        if (currentLevel.CanSpawnMore(activeEnemies.Count, totalSpawnedEnemies))
+        {
+            SpawnEnemy();
+        }
+
+        // Xóa enemy null (đã despawn)
+        activeEnemies.RemoveAll(e => e == null || !e.gameObject.activeInHierarchy);
     }
 
     private void SpawnEnemy()
     {
-        int RandomIndex = Random.Range(0, currentLevel.SpawnPoint.Length);
-        Transform randomSpawn = currentLevel.SpawnPoint[RandomIndex];
+        if (!currentLevel.CanSpawnMore(activeEnemies.Count, totalSpawnedEnemies))
+            return;
 
-		Enemy enemy = SimplePool.Spawn<Enemy>(PoolType.Enemy, randomSpawn.position, Quaternion.identity);
-		enemy.OnInit();
+        int randomIndex = Random.Range(0, currentLevel.spawnPoints.Length);
+        Transform spawnBase = currentLevel.spawnPoints[randomIndex];
+
+        Vector3 spawnPos = GetValidSpawnPosition(spawnBase.position, 4f);
+
+        Enemy enemy = SimplePool.Spawn<Enemy>(PoolType.Enemy, spawnPos, Quaternion.identity);
+        enemy.OnInit();
+        activeEnemies.Add(enemy);
+
+        totalSpawnedEnemies++;
+    }
+
+    private Vector3 GetValidSpawnPosition(Vector3 origin, float radius)
+    {
+        if (NavMesh.SamplePosition(origin + Random.insideUnitSphere * radius, out NavMeshHit hit, radius, NavMesh.AllAreas))
+            return hit.position;
+        return origin;
     }
 }

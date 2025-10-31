@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -6,16 +6,20 @@ using UnityEngine;
 public class Character : GameUnit
 {
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private AttackRange attackRange;
 
     public Animator anim;
     private string currentAnim;
 
-	public override void OnInit()
+    public List<Character> targets = new List<Character>();
+
+    public override void OnInit()
 	{
         currentAnim = "";
-	}
+        targets.Clear();
+    }
      
-    public Vector3 CheckGround(Vector3 nextPoint)
+    public Vector3 Move(Vector3 nextPoint)
     {
         RaycastHit hit;
 
@@ -29,8 +33,8 @@ public class Character : GameUnit
 
     public override void OnDespawn()
 	{
-		throw new System.NotImplementedException();
-	}
+        gameObject.SetActive(false);
+    }
 
 
     public void ChangeAnim(string animName)
@@ -42,4 +46,22 @@ public class Character : GameUnit
             anim.SetTrigger(currentAnim);
         }
     }
+
+    public void AddTarget(Character target)
+    {
+        if (!targets.Contains(target))
+            targets.Add(target);
+    }
+
+    public void RemoveTarget(Character target)
+    {
+        if (targets.Contains(target))
+            targets.Remove(target);
+    }
+
+    protected bool HasTargetInRange()
+    {
+        return targets.Count > 0;
+    }
+
 }

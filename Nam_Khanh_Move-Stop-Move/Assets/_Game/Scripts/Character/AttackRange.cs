@@ -1,30 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class AttackRange : MonoBehaviour
 {
-    [SerializeField] private Transform rangeCircle;
-    [SerializeField] private float attackRange = 3f;
+    [SerializeField] private float attackRange;
 
-    void Start()
+    private Character owner;
+    private SphereCollider col;
+
+    void Awake()
     {
-        UpdateRangeCircle();
-        ShowRange(true);
+        owner = GetComponentInParent<Character>();
+        col = GetComponent<SphereCollider>();
+        col.isTrigger = true;
+        col.radius = attackRange;
     }
 
-    public void UpdateRangeCircle()
+    private void OnTriggerEnter(Collider other)
     {
-        if (rangeCircle != null)
+        Debug.Log("OnTriggerEnter: " + other.name);
+        Character target = other.GetComponent<Character>();
+        if (target != null && target != owner)
         {
-            float scale = attackRange / 5f;
-            rangeCircle.localScale = new Vector3(10, 10, scale);
+            owner.AddTarget(target);
         }
     }
 
-    public void ShowRange(bool show)
+    private void OnTriggerExit(Collider other)
     {
-        if (rangeCircle != null)
-            rangeCircle.gameObject.SetActive(show);
+        Debug.Log("OnTriggerExit: " + other.name);
+        Character target = other.GetComponent<Character>();
+        if (target != null && target != owner)
+        {
+            owner.RemoveTarget(target);
+        }
     }
 }

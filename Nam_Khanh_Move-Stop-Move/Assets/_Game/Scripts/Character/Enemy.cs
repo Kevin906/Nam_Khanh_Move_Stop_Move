@@ -1,68 +1,80 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : Character
 {
-	[SerializeField] private float patrolRadius = 10f;
+    [SerializeField] private float patrolRadius = 10f;
 
     private Vector3 startingPosition;
-	private Vector3 destination;
-	public NavMeshAgent agent;
-	public bool IsAtDestination => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
+    private Vector3 destination;
+    public NavMeshAgent agent;
 
-	public override void OnInit()
+
+    public bool IsAtDestination =>
+        agent != null && agent.isOnNavMesh && !agent.pathPending &&
+        agent.remainingDistance <= agent.stoppingDistance + 0.1f;
+
+    public override void OnInit()
     {
         base.OnInit();
-		agent.enabled = true;
-		startingPosition = TF.position;
-		SetRandomDestination();
-		ChangeAnim("run");
-    }
 
-	private void Update()
-	{
-        if (IsAtDestination)
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null && NavMesh.SamplePosition(TF.position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
         {
-			SetRandomDestination();
+            agent.Warp(hit.position);
+            agent.enabled = true;
+            startingPosition = agent.transform.position;
+            SetRandomDestination();
+            ChangeAnim("run");
         }
-		if(agent.velocity.magnitude > 0.1f)
-		{
-			ChangeAnim("run");
-		}
-		else
-		{
-			ChangeAnim("idle");
-		}
+        else
+        {
+            // Nếu không có NavMesh ở vị trí spawn → disable agent để tránh lỗi
+            if (agent != null) agent.enabled = false;
+            ChangeAnim("idle");
+            Debug.LogWarning($"{name}: not on NavMesh at {TF.position}");
+        }
     }
 
-	private void SetRandomDestination()
-	{
-		Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
-		randomDirection += startingPosition;
-		randomDirection.y = 0;
 
-		NavMeshHit hit;
-		if (NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, NavMesh.AllAreas))
-		{
-			destination = hit.position;
-			agent.SetDestination(destination);
-		}
-		else
-		{
-			SetRandomDestination();
-		}
-	}
-	public void SetDestination(Vector3 position)
-	{
-		agent.enabled = true;
-		destination = position;
-		destination.y = 0;
-		agent.SetDestination(position);
-	}
-	public override void OnDespawn()
+    private void Update()
     {
-        throw new System.NotImplementedException();
+        if (agent == null || !agent.isOnNavMesh || !agent.isActiveAndEnabled)
+        {
+            ChangeAnim("idle");
+            return;
+        }
+
+        if (IsAtDestination)
+            SetRandomDestination();
+
+        if (agent.velocity.sqrMagnitude > 0.01f) ChangeAnim("run");
+        else ChangeAnim("idle");
+    }
+
+    private void SetRandomDestination()
+    {
+        if (agent == null || !agent.isOnNavMesh) return;
+
+        const int attempts = 6;
+        for (int i = 0; i < attempts; i++)
+        {
+            Vector3 rnd = startingPosition + Random.insideUnitSphere * patrolRadius;
+            rnd.y = startingPosition.y;
+
+            if (NavMesh.SamplePosition(rnd, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            {
+                destination = hit.position;
+                agent.SetDestination(destination);
+                return;
+            }
+        }
+    }
+
+    public override void OnDespawn()
+    {
+        // nếu dùng pooling: SimplePool.Despawn(this);
+        gameObject.SetActive(false);
     }
 }
