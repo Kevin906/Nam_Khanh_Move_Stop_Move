@@ -1,18 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Level : MonoBehaviour
 {
-    public NavMeshData navMeshData;
-    public int botAmount;
+	[Header("Level Settings")]
+	public NavMeshData navMeshData;
+	public int botAmount;
 
-    public Transform[] SpawnPoint;
-    public void OnInit()
-    {
+	[Header("Spawn Points")]
+	public List<Transform> SpawnPoints = new List<Transform>();
 
-    }
+	public List<Point> points = new List<Point>();
+
+	public void OnInit()
+	{
+		points.Clear();
+		points.AddRange(GetComponentsInChildren<Point>());
+
+		if (SpawnPoints.Count == 0 && points.Count > 0)
+		{
+			foreach (var p in points)
+			{
+				SpawnPoints.Add(p.transform);
+			}
+		}
+	}
 }
