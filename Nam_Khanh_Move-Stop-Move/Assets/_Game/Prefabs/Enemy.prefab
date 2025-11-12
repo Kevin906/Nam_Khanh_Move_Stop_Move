@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.1, z: -0.075}
-  m_LocalScale: {x: 1, y: 1, z: 0.4}
+  m_LocalScale: {x: 5, y: 5, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 438839676399195178}
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4619f4ff965a5a741833ca932d575bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeCircle: {fileID: 7313804420703259006}
-  attackRange: 3
+  Damage: 10
+  AttackDelay: 0.5
 --- !u!135 &6807602965391657327
 SphereCollider:
   m_ObjectHideFlags: 0

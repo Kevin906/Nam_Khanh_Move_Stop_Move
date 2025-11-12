@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class Character : GameUnit
+public class Character : GameUnit, IDamageAble
 {
     [SerializeField] private LayerMask groundLayer;
 
@@ -14,7 +14,12 @@ public class Character : GameUnit
 	{
         currentAnim = "";
 	}
-     
+
+    public override void OnDespawn()
+    {
+        SimplePool.Despawn(this);
+    }
+
     public Vector3 CheckGround(Vector3 nextPoint)
     {
         RaycastHit hit;
@@ -27,11 +32,6 @@ public class Character : GameUnit
 		return nextPoint;
     }
 
-    public override void OnDespawn()
-	{
-		throw new System.NotImplementedException();
-	}
-
 
     public void ChangeAnim(string animName)
     {
@@ -41,5 +41,27 @@ public class Character : GameUnit
             currentAnim = animName;
             anim.SetTrigger(currentAnim);
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Die();
+    }
+
+    private void Die()
+    {
+
+        ChangeAnim("die");
+
+        Invoke(nameof(DespawnSelf), 0.5f);
+    }
+
+    private void DespawnSelf()
+    {
+        SimplePool.Despawn(this);
+    }
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }
