@@ -8,7 +8,7 @@ public class AxeProjectile : MonoBehaviour
 {
     public float AutoDespawnTime = 5f;
     private float MoveSpeed = 2f;
-    public int Damage = 5;
+    public int Damage = 100;
     public Rigidbody Rb;
 
     private string DISABLE_METHOD_NAME = "Disable";

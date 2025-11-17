@@ -6,10 +6,10 @@ using UnityEngine;
 public class EnemyScriptableObject : ScriptableObject
 {
     public int health = 100;
-    public float speed = 1f;
-    public float attackRange;
-    public int damage = 5;
+    public float attackDelay = 1f;
+	public int damage = 100;
+	public float attackRadius = 1.5f;
+
+	public float speed = 1f;
     public bool IsRanged = false;
-
-
 }

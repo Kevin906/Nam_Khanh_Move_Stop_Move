@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class Character : GameUnit, IDamageAble
+public class Character : GameUnit
 {
     [SerializeField] private LayerMask groundLayer;
 
@@ -43,25 +44,4 @@ public class Character : GameUnit, IDamageAble
         }
     }
 
-    public void TakeDamage(int damage)
-    {
-        Die();
-    }
-
-    private void Die()
-    {
-
-        ChangeAnim("die");
-
-        Invoke(nameof(DespawnSelf), 0.5f);
-    }
-
-    private void DespawnSelf()
-    {
-        SimplePool.Despawn(this);
-    }
-    public Transform GetTransform()
-    {
-        return transform;
-    }
 }

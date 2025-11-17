@@ -126,5 +126,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoDespawnTime: 5
-  Damage: 5
-  Rb: {fileID: 0}
+  Damage: 100
+  Rb: {fileID: 1747695282330452280}

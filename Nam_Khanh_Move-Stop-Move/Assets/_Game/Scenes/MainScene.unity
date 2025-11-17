@@ -837,7 +837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TF: {fileID: 963194228}
-  playerTF: {fileID: 419043359114150910, guid: 21553f864551b6349b2f6e0c3cf19f23, type: 3}
+  playerTF: {fileID: 7045901105219444694, guid: 21553f864551b6349b2f6e0c3cf19f23, type: 3}
   offset: {x: 0, y: 13, z: -20}
 --- !u!1 &1153783673
 GameObject:
@@ -884,7 +884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2731243681958583737, guid: 561c81413f2388d47ad05da29053e093, type: 3}
-  playerPrefab: {fileID: 2905758218482849523, guid: 21553f864551b6349b2f6e0c3cf19f23, type: 3}
+  playerPrefab: {fileID: 1791090843569707715, guid: 21553f864551b6349b2f6e0c3cf19f23, type: 3}
   levelPrefabs:
   - {fileID: 7621885541102195534, guid: 34f5d7ba878bfdf4aa8079a6494e0216, type: 3}
   - {fileID: 6948923473078360995, guid: 62ee7b33529689d459285d30133c9c01, type: 3}
