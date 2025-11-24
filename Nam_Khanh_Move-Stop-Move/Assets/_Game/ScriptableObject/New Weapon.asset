@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ec865b734c4aa14ea03ee2bab07ca24, type: 3}
+  m_Name: New Weapon
+  m_EditorClassIdentifier: 
+  WeaponType:
+  - {fileID: 7025499625129079960, guid: e6b6c9bc4da64bf43a124b2f43e89fe7, type: 3}
+  - {fileID: 7054546000770777850, guid: d24cafa1a3b08294a8c12db5dac4e465, type: 3}
+  - {fileID: 172189304394278582, guid: 94f663758c4059049b92c6cb0822d61c, type: 3}
+  - {fileID: 5173454471806144895, guid: de403ca32d068ec42917507ae17978ec, type: 3}
+  - {fileID: 4770985148242516982, guid: 8a575279902fe094e8713f01df806228, type: 3}
+  - {fileID: 666361856547384759, guid: a93ab04915324894ebde8512063c53c4, type: 3}
+  - {fileID: 6371305894075970284, guid: edb8960e393663846b9166799722c76b, type: 3}
+  AddAttackRange:
+  - 0
+  - 1.5
+  - 0.3
+  - 0
+  - 2
+  - 2.5
+  - 1
+  AddAttackSpeed:
+  - 1
+  - 1
+  - 1
+  - 0
+  - 1.5
+  - 1.5
+  - 1
+  ArrowDefaultMaterials: []
+  Axe0DefaultMaterials: []
+  Axe1DefaultMaterials: []
+  BoomerangDefaultMaterials: []
+  Candy0DefaultMaterials: []
+  Candy4DefaultMaterials: []
+  HammerDefaultMaterials: []
+  KnifeDefaultMaterials: []
+  UziDefaultMaterials: []
+  ZDefaultMaterials: []
+  CustomMaterials: []
