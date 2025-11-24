@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum GameState { MainMenu, Gameplay, Pause }
+public enum GameState { MainMenu, Gameplay }
 
 public class GameManager : Singleton<GameManager>
 {

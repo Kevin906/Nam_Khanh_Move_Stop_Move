@@ -710,7 +710,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8798634753892163702}
   - component: {fileID: 3996095476527359064}
-  - component: {fileID: 3451939632835424448}
   m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
@@ -759,28 +758,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &3451939632835424448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2369491690837403974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a08810bd9ba926459f3be4ee9cf621b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  anim: {fileID: 6378257757410034157}
-  speed: 5
-  model: {fileID: 8798634753892163702}
-  attackCooldown: 1
-  attackHitDelay: 0.25
-  attackRadius: {fileID: 7042105330589368919}
 --- !u!1 &2461766742669424694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8292815941620998260}
   - component: {fileID: 2136629779694862320}
-  - component: {fileID: 7042105330589368919}
+  - component: {fileID: 1749026804226136640}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -1059,7 +1036,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7042105330589368919
+--- !u!114 &1749026804226136640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1068,12 +1045,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3191541545338610320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4619f4ff965a5a741833ca932d575bab, type: 3}
+  m_Script: {fileID: 11500000, guid: 53f23e6bfc91e5c41ac29f4039da9017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Collider: {fileID: 2136629779694862320}
-  Damage: 10
-  AttackDelay: 0.5
 --- !u!1 &3193816622210856462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,9 +1121,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7045901105219444694}
   - component: {fileID: 6170756931632734438}
+  - component: {fileID: 5979805339246580711}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1198,6 +1173,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &5979805339246580711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3270010073176309195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a08810bd9ba926459f3be4ee9cf621b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolType: 0
+  Health: 100
+  attackDuration: 0.6
+  canAttackWhileMoving: 0
+  anim: {fileID: 6378257757410034157}
+  attackRange: {fileID: 0}
+  model: {fileID: 8798634753892163702}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  stateMachine: {fileID: 0}
+  AttackRange: 1.6
+  attackCooldown: 1
+  visionRange: {fileID: 1749026804226136640}
+  currentTarget: {fileID: 0}
+  speed: 5
 --- !u!1 &3273770545375184167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1853,7 +1856,7 @@ GameObject:
   - component: {fileID: 3535386919618064655}
   - component: {fileID: 6274673276938310586}
   - component: {fileID: 8761384121711303556}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1870,7 +1873,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.4, z: 0.5}
+  m_LocalScale: {x: 1, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8292815941620998260}

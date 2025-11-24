@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 7035414489134813354}
   - component: {fileID: 2731243681958583737}
   - component: {fileID: 8151236965915764716}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &2731243681958583737
 MonoBehaviour:
@@ -140,15 +140,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 0
+  Health: 100
+  attackDuration: 0.6
+  canAttackWhileMoving: 0
+  anim: {fileID: 8879919821988729344}
+  attackRange: {fileID: 0}
+  model: {fileID: 7045901105219444694, guid: 21553f864551b6349b2f6e0c3cf19f23, type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  anim: {fileID: 8879919821988729344}
+  state: 0
   patrolRadius: 10
-  enemyData: {fileID: 0}
+  idleTime: 1.5
   agent: {fileID: 8151236965915764716}
-  Health: 100
-  attackRadius: {fileID: 3707074848049263621}
+  visionRange: 5
+  stopChaseDistance: 8
+  AttackRange: 5
+  attackCooldown: 1
+  Damage: 10
 --- !u!195 &8151236965915764716
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1883,7 +1892,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2425775432739841065}
   - component: {fileID: 922147260723498084}
-  - component: {fileID: 3707074848049263621}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -1927,21 +1935,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3707074848049263621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7405871682336487880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4619f4ff965a5a741833ca932d575bab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Collider: {fileID: 922147260723498084}
-  Damage: 10
-  AttackDelay: 0.5
 --- !u!1 &7509406399641194440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,7 +2030,7 @@ GameObject:
   - component: {fileID: 6138201408802931898}
   - component: {fileID: 7930754823562464253}
   - component: {fileID: 1478600376897841291}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Range (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2053,8 +2046,8 @@ Transform:
   m_GameObject: {fileID: 7605596659091439381}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.15, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.4, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 1, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2425775432739841065}

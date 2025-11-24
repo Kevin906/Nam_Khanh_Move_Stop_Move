@@ -7,7 +7,7 @@
 //{
 //    public NavMeshAgent Agent;
 //    public AxeProjectile AxeProjectilePrefab;
-//    public Vector3 ProjectileSpawnOffset = new Vector3(0,1,0);
+//    public Vector3 ProjectileSpawnOffset = new Vector3(0, 1, 0);
 //    public LayerMask Mask;
 
 //    [SerializeField] private float SpherecastRadius = 0.1f;

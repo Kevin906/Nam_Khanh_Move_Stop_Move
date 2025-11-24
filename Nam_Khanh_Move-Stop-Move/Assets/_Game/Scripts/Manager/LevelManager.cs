@@ -6,13 +6,12 @@ public class LevelManager : MonoBehaviour
 {
 	[Header("Prefabs")]
 	public Enemy enemyPrefab;
-	public Player playerPrefab;
 	public Level[] levelPrefabs;
 
 	private Level currentLevel;
-	private int levelIndex;
 	private List<Enemy> enemies = new List<Enemy>();
 	private List<Transform> shuffledSpawns = new List<Transform>();
+	private int levelIndex;
 	private int currentSpawnIndex = 0;
 	public int CharacterAmount => currentLevel.botAmount + 1;
 
@@ -32,8 +31,6 @@ public class LevelManager : MonoBehaviour
 		NavMesh.AddNavMeshData(currentLevel.navMeshData);
 
 		PrepareSpawnPoints();
-
-		SpawnPlayer();
 
 		for (int i = 0; i < currentLevel.botAmount; i++)
 		{
@@ -59,18 +56,10 @@ public class LevelManager : MonoBehaviour
 	{
 		if (currentSpawnIndex >= shuffledSpawns.Count)
 		{
-			Debug.LogWarning("No spawn points left!");
 			currentSpawnIndex = 0;
 		}
 
 		return shuffledSpawns[currentSpawnIndex++];
-	}
-
-	private void SpawnPlayer()
-	{
-		Transform randomSpawn = GetNextSpawnPoint();
-		Player newPlayer = Instantiate(playerPrefab, randomSpawn.position, Quaternion.identity);
-		newPlayer.OnInit();
 	}
 
 	private void SpawnEnemy()
@@ -84,19 +73,9 @@ public class LevelManager : MonoBehaviour
 		{
 			spawnPos = hit.position;
 		}
-		else
-		{
-			Debug.LogWarning($"Spawn point {randomSpawn.name} is not on NavMesh!");
-		}
 
 		Enemy enemy = SimplePool.Spawn<Enemy>(PoolType.Enemy, spawnPos, Quaternion.identity);
 		enemy.OnInit();
 		enemies.Add(enemy);
 	}
-
-	//private Transform GetRandomSpawnPoint()
-	//{
-	//	int randomIndex = Random.Range(0, currentLevel.SpawnPoints.Count);
-	//	return currentLevel.SpawnPoints[randomIndex];
-	//}
 }

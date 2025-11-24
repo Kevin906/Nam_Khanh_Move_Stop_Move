@@ -323,15 +323,13 @@ public class PoolAmount
 
 public enum IngameType
 {
-    PLAYER,
 	ENEMY,
-	None,
+    None,
 }
 
 
 public enum PoolType
 {
     Enemy,
-    AxeProjectile,
-    Projectile
+    Projectile_Axe,
 }

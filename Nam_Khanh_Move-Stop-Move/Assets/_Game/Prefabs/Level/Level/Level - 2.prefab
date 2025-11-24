@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshData: {fileID: 23800000, guid: 45f492447bf038e4983278a57a1e6f90, type: 2}
-  botAmount: 1
+  botAmount: 5
   SpawnPoints:
   - {fileID: 994741569214822839}
   - {fileID: 3487244319774492019}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Surface: {fileID: 2848993361242944890}
   Player: {fileID: 2731243681958583737, guid: 561c81413f2388d47ad05da29053e093, type: 3}
-  UpdateRate: 1
+  UpdateRate: 5
   MovementThreshold: 0
   NavMeshSize: {x: 0.1, y: 0.1, z: 0.1}
 --- !u!1 &2071902462410119862
