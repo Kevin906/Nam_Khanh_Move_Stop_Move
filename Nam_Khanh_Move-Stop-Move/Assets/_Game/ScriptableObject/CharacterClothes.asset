@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ca73c5b5da6fe44a2c0a68adafaadf, type: 3}
+  m_Name: CharacterClothes
+  m_EditorClassIdentifier: 
+  HeadPosition:
+  - {fileID: 6464451863141492748, guid: 7eb0e4127f29b104c97153940c6a289a, type: 3}
+  - {fileID: 8089311412309344764, guid: 6dadd3c9d5a48ef4e9ec3ead53aaacc8, type: 3}
+  - {fileID: 4913282049673371712, guid: 77da2cf5ab6a3734b96850c9f8e639df, type: 3}
+  - {fileID: 4183654901458590189, guid: 34756178c26b83942bb69b081faa39be, type: 3}
+  - {fileID: 6687250045377301221, guid: dbcc5eaad70cbc84ab2c4f3ece4b11c6, type: 3}
+  - {fileID: 2429848746361355621, guid: 748fdaeb5848fcd44b1b0b0df05626fd, type: 3}
+  - {fileID: 358061220801352792, guid: a058ddd40f8ac14489332b4ea1e59385, type: 3}
+  - {fileID: 6239582372013929934, guid: 8378bb0f65c254e4ea71f5d7f1e6c2b1, type: 3}
+  - {fileID: 7341508973859228247, guid: 45650137d1171b343afb98f21640f4d4, type: 3}
+  - {fileID: 1442864781706248943, guid: b44d69281614daf4bbcce9a9abf1c030, type: 3}
+  LeftHandPosition: []
+  PantsMaterials:
+  - {fileID: 2100000, guid: 5f0d5107a50537f4eaa64187bbfd96f4, type: 2}
+  - {fileID: 2100000, guid: b806ddfe7337cfb49bc99eb8f7274b3b, type: 2}
+  - {fileID: 2100000, guid: fdb5987204cbe2c47b0740b43cff8c7f, type: 2}
+  - {fileID: 2100000, guid: 35080a972f4859c42b1f03f059fec75f, type: 2}
+  - {fileID: 2100000, guid: e66d006e640fbfe49bd67b4b57bc470f, type: 2}
+  - {fileID: 2100000, guid: e9ae2fad62f533a4abe9a31efa88da84, type: 2}
+  - {fileID: 2100000, guid: aea1d871ee5a0764a9d3f4ba75ac069d, type: 2}
+  - {fileID: 2100000, guid: f3a1b268ab59436489a8bce217278e6a, type: 2}
+  - {fileID: 2100000, guid: aa0fc6fbce289c143b028a9e12f2fb3c, type: 2}
+  SkinMaterials: []
