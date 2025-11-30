@@ -23,7 +23,9 @@ MonoBehaviour:
   - {fileID: 6239582372013929934, guid: 8378bb0f65c254e4ea71f5d7f1e6c2b1, type: 3}
   - {fileID: 7341508973859228247, guid: 45650137d1171b343afb98f21640f4d4, type: 3}
   - {fileID: 1442864781706248943, guid: b44d69281614daf4bbcce9a9abf1c030, type: 3}
-  LeftHandPosition: []
+  LeftHandPosition:
+  - {fileID: 615109384915087379, guid: 63c47293e4b4d49439094471e08068bc, type: 3}
+  - {fileID: 1685226564799283783, guid: 0779211ac1ebae6498405e0e74073f84, type: 3}
   PantsMaterials:
   - {fileID: 2100000, guid: 5f0d5107a50537f4eaa64187bbfd96f4, type: 2}
   - {fileID: 2100000, guid: b806ddfe7337cfb49bc99eb8f7274b3b, type: 2}
@@ -34,4 +36,3 @@ MonoBehaviour:
   - {fileID: 2100000, guid: aea1d871ee5a0764a9d3f4ba75ac069d, type: 2}
   - {fileID: 2100000, guid: f3a1b268ab59436489a8bce217278e6a, type: 2}
   - {fileID: 2100000, guid: aa0fc6fbce289c143b028a9e12f2fb3c, type: 2}
-  SkinMaterials: []
