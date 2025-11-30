@@ -10,9 +10,7 @@ public class Character : MonoBehaviour
     [HideInInspector] public enum clothesType 
     { 
         Arrow, Cowboy, Crown, Ear, Hat, Hat_Cap, Hat_Yellow, HeadPhone, Rau, Khien, Shield,
-        Batman, Chambi, comy, dabao, onion, pokemon, rainbow, Skull, Vantim,
-        Devil, Angel, Witch, Deadpool, Thor
-    }
+        Batman, Chambi, comy, dabao, onion, pokemon, rainbow, Skull, Vantim }
     [HideInInspector]
     public enum SetFullOrNormal{SetFull, Normal}
     public SetFullOrNormal lastClothes;
@@ -203,55 +201,55 @@ public class Character : MonoBehaviour
             case clothesType.Batman:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[4];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[0];
                 break;
             }
             case clothesType.Chambi:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[5];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[1];
                 break;
             }
             case clothesType.comy:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[6];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[2];
                 break;
             }
             case clothesType.dabao:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[7];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[3];
                 break;
             }
             case clothesType.onion:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[8];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[4];
                 break;
             }
             case clothesType.pokemon:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[9];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[5];
                 break;
             }
             case clothesType.rainbow:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[10];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[6];
                 break;
             }
             case clothesType.Skull:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[11];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[7];
                 break;
             }
             case clothesType.Vantim:
             {
                 GetDefaultClothes();
-                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[12];
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[8];
                 break;
             }
         }

@@ -12,6 +12,6 @@ public class ClothesInfo : ScriptableObject
     [Header("Pants")]
     public Material[] PantsMaterials;
 
-    [Header("Skin")]
-    public Material[] SkinMaterials;
+    [Header("Shield")]
+    public Material[] ShieldMaterials;
 }

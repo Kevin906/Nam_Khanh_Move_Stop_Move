@@ -18,21 +18,21 @@ public class ProjectileSpawner : MonoBehaviour
         switch (tag)
         {
             case "Arrow":
-                return "Prefabs/Projectile/Arrow";
+                return "Prefabs/Projectile/Throw/Arrows";
             case "Axe_0":
-                return "Prefabs/Projectile/Axe_0";
+                return "Prefabs/Projectile/Throw/Axe_0s";
             case "Boomerang":
-                return "Prefabs/Projectile/boomerang";
+                return "Prefabs/Projectile/Throw/boomerangs";
             case "candy_0":
-                return "Prefabs/Projectile/candy_0";
+                return "Prefabs/Projectile/Throw/candy_0s";
             case "Hammer":
-                return "Prefabs/Projectile/Hammer";
+                return "Prefabs/Projectile/Throw/Hammers";
             case "Knife":
-                return "Prefabs/Projectile/knife";
+                return "Prefabs/Projectile/Throw/knifes";
             case "Uzi":
-                return "Prefabs/Projectile/uzi";
+                return "Prefabs/Projectile/Throw/uzis";
             default:
-                return "Prefabs/Projectile/Z";
+                return "Prefabs/Projectile/Throw/ZZZ";
         }
     }
 }
