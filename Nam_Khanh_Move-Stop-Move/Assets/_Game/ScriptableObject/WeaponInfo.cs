@@ -11,37 +11,4 @@ public class WeaponInfo : ScriptableObject
 
     [Header("Add Attack Speed")]
     public float[] AddAttackSpeed;
-
-    [Header("Arrow Materials")]
-    public Material[] ArrowDefaultMaterials;
-
-    [Header("Axe0 Materials")]
-    public Material[] Axe0DefaultMaterials;
-
-    [Header("Axe1 Materials")]
-    public Material[] Axe1DefaultMaterials;
-
-    [Header("Boomerang Materials")]
-    public Material[] BoomerangDefaultMaterials;
-
-    [Header("Candy0 Materials")]
-    public Material[] Candy0DefaultMaterials;
-
-    [Header("Candy4 Materials")]
-    public Material[] Candy4DefaultMaterials;
-
-    [Header("Hammer Materials")]
-    public Material[] HammerDefaultMaterials;
-
-    [Header("Knife Materials")]
-    public Material[] KnifeDefaultMaterials;
-
-    [Header("Uzi Materials")]
-    public Material[] UziDefaultMaterials;
-
-    [Header("Z Materials")]
-    public Material[] ZDefaultMaterials;
-
-    [Header("Custom Materials")]
-    public Material[] CustomMaterials;
 }

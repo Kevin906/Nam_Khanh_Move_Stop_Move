@@ -2,32 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatePlayerIdle : IState
+public class StatePlayerIdle : IStatePlayer
 {
-    private Player player;
-
-    public StatePlayerIdle(Player p)
+    public void OnEnter(Player player)
     {
-        player = p;
+        player.OnIdle();
     }
-
-    public void OnEnter()
+    public void OnExecute(Player player)
     {
-        player.ChangeAnim("idle");
+        player.CheckIdleToPatrol();
+        player.CheckIdletoAttack();
     }
-
-    public void OnExecute()
+    public void OnExit(Player player)
     {
-        if (player.currentTarget != null)
-        {
-            player.stateMachine.ChangeState(player.attackState);
-            return;
-        }
-
-        Vector3 dir = JoystickControl.direct;
-        if (dir != Vector3.zero)
-            player.stateMachine.ChangeState(player.moveState);
+        player.OnResetAllTrigger();
     }
-
-    public void OnExit() { }
 }

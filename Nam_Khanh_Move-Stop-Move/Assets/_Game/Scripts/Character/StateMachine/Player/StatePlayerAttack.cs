@@ -2,41 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatePlayerAttack : IState
+public class StatePlayerAttack : IStatePlayer
 {
-    private Player player;
-
-    public StatePlayerAttack(Player p)
+    public void OnEnter(Player player)
     {
-        player = p;
+        player.OnAttack();
     }
-
-    public void OnEnter()
+    public void OnExecute(Player player)
     {
-        if (player.currentTarget == null)
-        {
-            player.stateMachine.ChangeState(player.idleState);
-            return;
-        }
-
-        player.LookAt(player.currentTarget);
-        player.ChangeAnim("attack");
-        player.StartCoroutine(OnEndAttack());
+        player.attack();
+        player.CheckIdleToPatrol();
     }
-
-    private IEnumerator OnEndAttack()
+    public void OnExit(Player player)
     {
-        yield return new WaitForSeconds(player.attackDuration);
-        if (player.currentTarget != null)
-        {
-            player.stateMachine.ChangeState(player.attackState);
-        }
-        else
-        {
-            player.stateMachine.ChangeState(player.idleState);
-        }
+        player.OnResetAllTrigger();
     }
-
-    public void OnExecute() { }
-    public void OnExit() { }
 }

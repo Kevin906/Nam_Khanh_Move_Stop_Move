@@ -1,129 +1,296 @@
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Character : GameUnit
+public class Character : MonoBehaviour
 {
-    [Header("Stats")]
-    public int Health = 100;
-    public float attackDuration = 0.6f;
-    public bool canAttackWhileMoving = false;
+    [HideInInspector] public enum CharacterName { Thor, Kevin, AAAAA, Hello_world, Im_not_a_Bot, Am_I_a_Bot, Zaahen2025, Aatrox2013, Varus2012, Rhaast2017, Naafiri2023, Yasuo15phGG, Bruh, Badboy666, KKKK, Imposter123 }
+    [HideInInspector]public enum weaponType { Arrow, Axe_0, boomerang, candy_0, Hammer, knife, uzi, Z}
+    [HideInInspector] public enum clothesType 
+    { 
+        Arrow, Cowboy, Crown, Ear, Hat, Hat_Cap, Hat_Yellow, HeadPhone, Rau, Khien, Shield,
+        Batman, Chambi, comy, dabao, onion, pokemon, rainbow, Skull, Vantim,
+        Devil, Angel, Witch, Deadpool, Thor
+    }
+    [HideInInspector]
+    public enum SetFullOrNormal{SetFull, Normal}
+    public SetFullOrNormal lastClothes;
+    [SerializeField] private Animator anim;
+    public UnityAction OnAttack;
+    public UnityAction OnRun;
+    public UnityAction OnIdle;
+    public UnityAction OnDeath;
+    public UnityAction OnWin;
+    public UnityAction OnDance;
+    public UnityAction OnResetAllTrigger;
+    public Attack attackScript;
+    public float AttackRange;
+    public float AttackSpeed;
+    public float MoveSpeed;
+    public ClothesInfo CharacterClothes;
+    public Transform ShieldPosition;
+    public Transform LeftHandPosition;
+    public Transform HeadPosition;
+    public Transform weaponPosition;
+    public Renderer PantsPositionRenderer;
+    public GameObject[] weaponArray = new GameObject[8];
+    public Animator characterCanvasAnim;
+    public WeaponInfo _weapon;
+    public bool enableToAttackFlag=false;
+    public float distanceToNearistEnemy;
+    public Vector3 nearistEnemyPosition;
+    public int opponentID;
+    public int EnemySkinID;
+    public bool IsDeath;
+    public AudioSource audiosource;
+    
+    [SerializeField] private AudioClip[] DieAudio;
+    [SerializeField] private AudioClip SizeUpAudio;
+    [SerializeField] private AudioClip WinAudio;
 
-    [Header("Components")]
-    public Animator anim;
-    public AttackRange attackRange;
-    public Transform model;
-    public LayerMask groundLayer;
-
-    protected bool isAttacking;
-    protected bool isMoving;
-    private Coroutine lookCoroutine;
-    private string currentAnim;
-
-    protected virtual void Awake()
+    private void Start()
     {
-        if (!attackRange)
-            attackRange = GetComponentInChildren<AttackRange>();
+        audiosource = GetComponent<AudioSource>();
+        _weapon = GetComponent<WeaponInfo>();
+        PantsPositionRenderer = GetComponent<Renderer>();
+    }
+    public virtual void attack()
+    { 
 
-        if (attackRange)
-            attackRange.OnAttack += HandleAttack;
     }
 
-    public override void OnInit()
+    public virtual void move() 
     {
-        currentAnim = "";
+
     }
 
-    public override void OnDespawn()
+    public virtual void AddLevel()
     {
-        SimplePool.Despawn(this);
+
     }
 
-    public void ChangeAnim(string animName)
+    public void PlayDieAudio()
     {
-        if (currentAnim != animName)
+        if (!GameManager.Instance.OpenSound) return;
+
+        int index = Random.Range(0, DieAudio.Length);
+        audiosource.PlayOneShot(DieAudio[index], 0.7f);
+    }
+    public void PlaySizeUpAudio()
+    {
+        if (GameManager.Instance.OpenSound) audiosource.PlayOneShot(SizeUpAudio);
+    }
+    public void PlayWinAudio()
+    {
+        if (GameManager.Instance.OpenSound) audiosource.PlayOneShot(WinAudio, 0.3f);
+    }
+    public void weaponListCreate()
+    {
+        int childCount = weaponPosition.childCount;
+
+        for (int i = 0; i < weaponArray.Length; i++)
         {
-            anim.ResetTrigger(currentAnim);
-            currentAnim = animName;
-            anim.SetTrigger(currentAnim);
+            if (i < childCount)
+                weaponArray[i] = weaponPosition.GetChild(i).gameObject;
+            else
+                weaponArray[i] = null;
         }
     }
 
-    private void HandleAttack(IDamageAble target)
+    public Vector3 FindNearistEnemy(float attackRange)
     {
-        if (isAttacking) return;
-        if (isMoving && !canAttackWhileMoving) return;
-
-        isAttacking = true;
-        StopMovement();
-        LookAt(target.GetTransform());
-
-        ChangeAnim("attack");
-        StartCoroutine(EndAttack());
-    }
-
-    private IEnumerator EndAttack()
-    {
-        yield return new WaitForSeconds(attackDuration);
-        isAttacking = false;
-        ResumeMovement();
-    }
-
-    public void LookAt(Transform target)
-    {
-        if (lookCoroutine != null)
-            StopCoroutine(lookCoroutine);
-
-        lookCoroutine = StartCoroutine(LookAtSmooth(target));
-    }
-
-    private IEnumerator LookAtSmooth(Transform target)
-    {
-        Quaternion targetRot = Quaternion.LookRotation(target.position - transform.position);
-        float t = 0f;
-
-        while (t < 1f)
+        distanceToNearistEnemy = 1000f;
+        for (int i = 0; i < GameManager.Instance.CharacterList.Count; i++)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, t);
-            t += Time.deltaTime * 5;
-            yield return null;
+            if (GameManager.Instance.CharacterList[i].gameObject.GetInstanceID() != gameObject.GetInstanceID() && Vector3.Distance(GameManager.Instance.CharacterList[i].gameObject.transform.position, gameObject.transform.position) < attackRange && GameManager.Instance.CharacterList[i].gameObject.activeSelf)
+            {
+                if (Vector3.Distance(GameManager.Instance.CharacterList[i].gameObject.transform.position, gameObject.transform.position) < distanceToNearistEnemy && GameManager.Instance.CharacterList[i].IsDeath == false)
+                {
+                    distanceToNearistEnemy = Vector3.Distance(GameManager.Instance.CharacterList[i].gameObject.transform.position, gameObject.transform.position);
+                    nearistEnemyPosition = GameManager.Instance.CharacterList[i].gameObject.transform.position;
+                    opponentID = GameManager.Instance.CharacterList[i].gameObject.GetInstanceID();
+                }
+            }
         }
-
-        transform.rotation = targetRot;
+        if (distanceToNearistEnemy > 900f) return Vector3.zero;
+        else return nearistEnemyPosition;
     }
 
-    public Vector3 CheckGround(Vector3 point)
+    public void AddWeaponPower()
     {
-        if (Physics.Raycast(point + Vector3.up, Vector3.down, out RaycastHit hit, 2f, groundLayer))
-            point.y = hit.point.y;
-
-        return point;
+        for (int i = 0; i < weaponArray.Length; i++)
+        {
+            if (weaponArray[i].activeSelf)
+            {
+                AttackRange += _weapon.AddAttackRange[i];
+                AttackSpeed += _weapon.AddAttackSpeed[i];
+                break;
+            }
+        }
     }
 
-    public virtual void TakeDamage(int damage)
+    public void ChangeClothes(clothesType _ClothesType)
     {
-        Health -= damage;
-
-        if (Health <= 0)
-            Die();
+        switch (_ClothesType)
+        {
+            case clothesType.Arrow:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[0]);
+                break;
+            }
+            case clothesType.Cowboy:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[1]);
+                break;
+            }
+            case clothesType.Crown:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[2]);
+                break;
+            }
+            case clothesType.Ear:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[3]);
+                break;
+            }
+            case clothesType.Hat:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[4]);
+                break;
+            }
+            case clothesType.Hat_Cap:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[5]);
+                break;
+            }
+            case clothesType.Hat_Yellow:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[6]);
+                break;
+            }
+            case clothesType.HeadPhone:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[7]);
+                break;
+            }
+            case clothesType.Rau:
+            {
+                ResetHeadPosition();
+                Instantiate(CharacterClothes.HeadPosition[8]);
+                break;
+            }
+            case clothesType.Khien:
+            {
+                ResetShieldPosition();
+                Instantiate(CharacterClothes.LeftHandPosition[2], ShieldPosition);
+                break;
+            }
+            case clothesType.Shield:
+            {
+                ResetShieldPosition();
+                Instantiate(CharacterClothes.LeftHandPosition[3], ShieldPosition);
+                break;
+            }
+            case clothesType.Batman:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[4];
+                break;
+            }
+            case clothesType.Chambi:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[5];
+                break;
+            }
+            case clothesType.comy:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[6];
+                break;
+            }
+            case clothesType.dabao:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[7];
+                break;
+            }
+            case clothesType.onion:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[8];
+                break;
+            }
+            case clothesType.pokemon:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[9];
+                break;
+            }
+            case clothesType.rainbow:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[10];
+                break;
+            }
+            case clothesType.Skull:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[11];
+                break;
+            }
+            case clothesType.Vantim:
+            {
+                GetDefaultClothes();
+                PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[12];
+                break;
+            }
+        }
     }
 
-    protected virtual void Die()
+    public void ResetClothes()
     {
-        ChangeAnim("die");
-        OnDead();
+        ResetShieldPosition();
+        ResetLeftHandPosition();
+        ResetHeadPosition();
+        GetDefaultClothes();
     }
 
-    protected virtual void OnDead() { }
-
-    protected virtual void StopMovement()
+    public void GetDefaultClothes()
     {
-        isMoving = false;
+        PantsPositionRenderer.sharedMaterial = CharacterClothes.PantsMaterials[3];      
     }
 
-    protected virtual void ResumeMovement()
+    public void ResetShieldPosition()
     {
-        // override n?u mu?n
+        foreach (Transform item in ShieldPosition)
+        {
+            Destroy(item.gameObject);
+        }
     }
 
-    protected virtual void OnAttack(IDamageAble target) { }
+    public void ResetLeftHandPosition()
+    {
+        foreach (Transform item in LeftHandPosition)
+        {
+            Destroy(item.gameObject);
+        }
+    }
+
+    public void ResetHeadPosition()
+    {
+        foreach (Transform item in HeadPosition)
+        {
+            Destroy(item.gameObject);
+        }
+    }
 }

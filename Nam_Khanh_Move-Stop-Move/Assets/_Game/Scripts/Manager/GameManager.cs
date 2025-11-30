@@ -1,26 +1,83 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public enum GameState { MainMenu, Gameplay }
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : Singleton<GameManager>,IVariable
 {
-	private GameState gameState;
+    public enum GameState { gameUI, gameStarted, gameOver, gameWin }
+    public GameState gameState;
+    public List<Character> CharacterList = new List<Character>();
+    public Transform[] Obstacle;
+    public Camera mainCamera;
+    public Camera shopCamera;
+    public int TotalCharacterAmount, IsAliveAmount, KilledAmount, TotalCharAlive, SpawnAmount;
+    private int LevelID;
+    public bool OpenSound;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip ClickSound;
+    [SerializeField] private AudioClip WeaponImpact;
+    [SerializeField] private AudioClip attackAudio;
+    [SerializeField] private AudioClip loseAudio;
+    // Start is called before the first frame update
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        IVariables();
+        LevelID = 1;
+        LevelID = PlayerPrefs.GetInt("LevelID");
+        OpenSound = true;
+    }
 
-	private void Start()
-	{
-		ChangeState(GameState.MainMenu);
-	}
+    // Update is called once per frame
+    void Update()
+    {
+        IsAliveAmount = IsAliveCounting();
+        TotalCharAlive = SpawnAmount + IsAliveAmount;
+    }
+    public void IVariables()
+    {
+        gameState = GameState.gameUI;
+        int TotalCharacterAmount;
+        KilledAmount = 0;
+    }
 
-	public void ChangeState(GameState gameState)
-	{
-		this.gameState = gameState;
-	}
+    public void PlayClickSound()
+    {
+        if (OpenSound) audioSource.PlayOneShot(ClickSound);
+    }
+    public void PlayWeaponImpackSound()
+    {
+        if (OpenSound) audioSource.PlayOneShot(WeaponImpact);
+    }
+    public void PlayAttackAudio()
+    {
+        if (GameManager.Instance.OpenSound) audioSource.PlayOneShot(attackAudio);
+    }
+    public void PlayLoseAudio()
+    {
+        if (GameManager.Instance.OpenSound) audioSource.PlayOneShot(loseAudio);
+    }
+    public int IsAliveCounting()
+    {
+        int IsAliveAmount=0;
+        for (int i = 0; i < CharacterList.Count; i++)
+        {
+            if (CharacterList[i].gameObject.activeSelf)
+            {
+                if (CharacterList[i].IsDeath == false) IsAliveAmount++;
+            }
+        }
+        return IsAliveAmount;
+    }
 
-	public bool IsState(GameState gameState)
-	{
-		return this.gameState == gameState;
-	}
+    public void LoadNewLevel()
+    {
+        LevelID++;
+        if (LevelID > 4) LevelID = 1;
+        PlayerPrefs.SetInt("LevelID", LevelID);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("Level" + LevelID);
+    }
 }

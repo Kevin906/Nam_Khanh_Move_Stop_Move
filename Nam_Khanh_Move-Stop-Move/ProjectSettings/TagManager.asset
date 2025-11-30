@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Obstacle
+  - Arrow
+  - Axe_0
+  - Boomerang
+  - candy_0
+  - Hammer
+  - Knife
+  - Uzi
+  - Z
+  - Enemy
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -11,8 +22,8 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Object
-  - 
+  - Table
+  - Obstacle
   - Player
   - PlayerAttackRadius
   - Enemy

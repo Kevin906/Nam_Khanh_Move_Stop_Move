@@ -1,4 +1,4 @@
 public interface IOnhit
 {
-    void Onhit();
+    void OnHit();
 }

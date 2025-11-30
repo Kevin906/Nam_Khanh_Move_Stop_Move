@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollower : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
-	public Transform TF;
-	public Transform playerTF;
+    [SerializeField] private Transform player;
+    public Vector3 positionOffset = new Vector3(20f, 15f, 0f);
+    void Start()
+    {
 
-	[SerializeField] Vector3 offset;
+    }
 
-	private void LateUpdate()
-	{
-		TF.position = Vector3.Lerp(TF.position, playerTF.position + offset, Time.deltaTime * 5f);
-	}
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        transform.position = player.position + positionOffset;
+        transform.LookAt(player.position);
+    }
 }
